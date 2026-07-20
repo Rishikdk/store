@@ -2,11 +2,12 @@ import { type Request, type Response, type NextFunction } from 'express';
 import mongoose from 'mongoose';
 import { Product } from '../database/index.js';
 import { AppError } from '../utils/AppError.js';
+import { paginationSchema, buildMeta, buildSkip, buildSort, type PaginationQuery } from '../utils/pagination.js';
 
 export async function createProduct(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const product = await Product.create(req.body);
-    res.status(201).json({ status: 'success', data: product });
+    res.status(201).json({ data: product });
   } catch (err) {
     next(err);
   }
@@ -14,28 +15,28 @@ export async function createProduct(req: Request, res: Response, next: NextFunct
 
 export async function getProducts(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const { page = '1', limit = '10', category } = req.query;
-    const pageNum = Math.max(1, Number(page));
-    const limitNum = Math.max(1, Math.min(100, Number(limit)));
-    const skip = (pageNum - 1) * limitNum;
+    const query = paginationSchema.parse(req.query) as PaginationQuery;
+    const { search, category } = req.query;
 
     const filter: Record<string, unknown> = {};
     if (category && typeof category === 'string') {
       filter.category = category;
     }
+    if (search && typeof search === 'string') {
+      filter.name = { $regex: search, $options: 'i' };
+    }
+
+    const allowedSorts = ['name', 'price', 'stock', 'createdAt'];
+    const sortField = allowedSorts.includes(query.sort) ? query.sort : 'createdAt';
 
     const [products, total] = await Promise.all([
-      Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limitNum),
+      Product.find(filter).sort(buildSort(sortField, query.order)).skip(buildSkip(query.page, query.perPage)).limit(query.perPage),
       Product.countDocuments(filter),
     ]);
 
     res.json({
-      status: 'success',
+      meta: buildMeta(query.page, query.perPage, total),
       data: products,
-      page: pageNum,
-      limit: limitNum,
-      total,
-      totalPages: Math.ceil(total / limitNum),
     });
   } catch (err) {
     next(err);
@@ -52,7 +53,7 @@ export async function getProduct(req: Request, res: Response, next: NextFunction
     if (!product) {
       throw new AppError('Product not found', 404);
     }
-    res.json({ status: 'success', data: product });
+    res.json({ data: product });
   } catch (err) {
     next(err);
   }
@@ -71,7 +72,7 @@ export async function updateProduct(req: Request, res: Response, next: NextFunct
     if (!product) {
       throw new AppError('Product not found', 404);
     }
-    res.json({ status: 'success', data: product });
+    res.json({ data: product });
   } catch (err) {
     next(err);
   }
@@ -87,7 +88,7 @@ export async function deleteProduct(req: Request, res: Response, next: NextFunct
     if (!product) {
       throw new AppError('Product not found', 404);
     }
-    res.json({ status: 'success', data: null });
+    res.json({ data: null });
   } catch (err) {
     next(err);
   }

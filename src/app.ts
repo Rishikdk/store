@@ -1,4 +1,5 @@
 import express from 'express';
+import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -12,6 +13,7 @@ import orderRoutes from './routes/orders.js';
 export function createApp() {
   const app = express();
 
+  app.use(morgan('dev'));
   app.use(helmet());
   app.use(
     cors({

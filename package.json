@@ -9,8 +9,8 @@
     "start": "node dist/server.js",
     "test": "jest --runInBand --forceExit",
     "typecheck": "tsc --noEmit",
-    "studio": "docker compose up mongo-express",
-    "studio:detach": "docker compose up -d mongo-express",
+    "studio": "docker compose -f docker-compose.studio.yml up",
+    "studio:detach": "docker compose -f docker-compose.studio.yml up -d",
     "seed": "tsx src/database/seed.ts",
     "seed:reset": "tsx src/database/seed.ts --reset"
   },
@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/morgan": "^1.9.10",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -27,6 +28,7 @@
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.4",
+    "morgan": "^1.11.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

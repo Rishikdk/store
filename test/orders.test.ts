@@ -253,13 +253,13 @@ describe('GET /api/v1/orders', () => {
     }
 
     const res = await app
-      .get('/api/v1/orders?page=1&limit=2')
+      .get('/api/v1/orders?page=1&perPage=2')
       .set(authHeader(customerToken));
 
     expect(res.status).toBe(200);
     expect(res.body.data).toHaveLength(2);
-    expect(res.body.total).toBe(5);
-    expect(res.body.totalPages).toBe(3);
+    expect(res.body.meta.total).toBe(5);
+    expect(res.body.meta.totalPages).toBe(3);
   });
 
   it('should filter by status', async () => {

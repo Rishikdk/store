@@ -28,8 +28,8 @@ describe('GET /api/v1/products', () => {
 
     expect(res.status).toBe(200);
     expect(res.body.data).toHaveLength(0);
-    expect(res.body.page).toBe(1);
-    expect(res.body.total).toBe(0);
+    expect(res.body.meta.page).toBe(1);
+    expect(res.body.meta.total).toBe(0);
   });
 
   it('should return paginated products', async () => {
@@ -44,14 +44,14 @@ describe('GET /api/v1/products', () => {
     }
 
     const res = await app
-      .get('/api/v1/products?page=2&limit=5')
+      .get('/api/v1/products?page=2&perPage=5')
       .set(authHeader(customerToken));
 
     expect(res.status).toBe(200);
     expect(res.body.data).toHaveLength(5);
-    expect(res.body.page).toBe(2);
-    expect(res.body.total).toBe(15);
-    expect(res.body.totalPages).toBe(3);
+    expect(res.body.meta.page).toBe(2);
+    expect(res.body.meta.total).toBe(15);
+    expect(res.body.meta.totalPages).toBe(3);
   });
 
   it('should filter by category', async () => {
