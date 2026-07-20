@@ -8,7 +8,11 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "test": "jest --runInBand --forceExit",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "studio": "docker compose up mongo-express",
+    "studio:detach": "docker compose up -d mongo-express",
+    "seed": "tsx src/database/seed.ts",
+    "seed:reset": "tsx src/database/seed.ts --reset"
   },
   "keywords": [],
   "author": "",

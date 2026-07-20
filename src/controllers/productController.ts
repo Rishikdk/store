@@ -1,6 +1,6 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { Product } from '../models/Product.js';
+import { Product } from '../database/index.js';
 import { AppError } from '../utils/AppError.js';
 
 export async function createProduct(req: Request, res: Response, next: NextFunction): Promise<void> {

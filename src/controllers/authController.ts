@@ -1,6 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { User } from '../models/User.js';
-import { RefreshToken } from '../models/RefreshToken.js';
+import { User, RefreshToken } from '../database/index.js';
 import { AppError } from '../utils/AppError.js';
 import { type AuthRequest } from '../middleware/auth.js';
 import {

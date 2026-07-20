@@ -1,7 +1,6 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { Product } from '../models/Product.js';
-import { Order } from '../models/Order.js';
+import { Product, Order } from '../database/index.js';
 import { AppError } from '../utils/AppError.js';
 import { type AuthRequest } from '../middleware/auth.js';
 import { createOrderService } from '../services/orderService.js';

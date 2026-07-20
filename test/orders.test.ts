@@ -3,8 +3,7 @@ import { getTestApp, authHeader } from './helpers/app.js';
 import { createTestUser } from './helpers/users.js';
 import { createTestProduct } from './helpers/products.js';
 import { setupDB, teardownDB, clearCollections } from './helpers/db.js';
-import { Product } from '../src/models/Product.js';
-import { Order } from '../src/models/Order.js';
+import { Product, Order } from '../src/database/index.js';
 
 let adminToken: string;
 let customerToken: string;

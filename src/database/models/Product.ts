@@ -38,10 +38,13 @@ const productSchema = new Schema<IProduct>(
       type: String,
       required: [true, 'Category is required'],
       trim: true,
-      index: true,
     },
   },
   { timestamps: true },
 );
+
+productSchema.index({ name: 1 });
+productSchema.index({ category: 1, price: 1 });
+productSchema.index({ stock: 1 });
 
 export const Product = mongoose.model<IProduct>('Product', productSchema);

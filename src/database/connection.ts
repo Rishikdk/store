@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { config } from './env.js';
+import { config } from '../config/env.js';
 
 let retries = 3;
 
@@ -23,3 +23,5 @@ export async function connectDB(): Promise<void> {
 export async function disconnectDB(): Promise<void> {
   await mongoose.disconnect();
 }
+
+export { mongoose };

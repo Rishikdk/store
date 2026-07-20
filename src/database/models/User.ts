@@ -21,7 +21,6 @@ const userSchema = new Schema<IUser>(
     email: {
       type: String,
       required: [true, 'Email is required'],
-      unique: true,
       lowercase: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Invalid email format'],
@@ -40,6 +39,9 @@ const userSchema = new Schema<IUser>(
   },
   { timestamps: true },
 );
+
+userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ role: 1 });
 
 userSchema.pre('save', async function () {
   if (!this.isModified('password')) return;

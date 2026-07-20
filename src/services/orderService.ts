@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import { Product } from '../models/Product.js';
-import { Order } from '../models/Order.js';
+import { Product, Order } from '../database/index.js';
 import { AppError } from '../utils/AppError.js';
 
 interface OrderItemInput {

@@ -28,9 +28,11 @@ const orderItemSchema = new Schema<IOrderItem>({
   },
 });
 
+orderItemSchema.index({ product: 1 });
+
 const orderSchema = new Schema<IOrder>(
   {
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     items: { type: [orderItemSchema], required: true, validate: {
       validator: (items: IOrderItem[]) => items.length > 0,
       message: 'Order must have at least one item',
@@ -48,5 +50,9 @@ const orderSchema = new Schema<IOrder>(
   },
   { timestamps: true },
 );
+
+orderSchema.index({ user: 1, createdAt: -1 });
+orderSchema.index({ user: 1, status: 1 });
+orderSchema.index({ status: 1, createdAt: -1 });
 
 export const Order = mongoose.model<IOrder>('Order', orderSchema);
