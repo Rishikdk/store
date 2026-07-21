@@ -80,6 +80,32 @@ cp .env.example .env
 docker compose up --build
 ```
 
+Wait for `mongo-init` to finish (initializes the replica set), then verify:
+
+```bash
+docker compose logs mongo-init
+```
+
+The app starts automatically once the replica set is ready. API at `http://localhost:3000`, Swagger docs at `http://localhost:3000/api-docs`.
+
+**Services:**
+
+| Service | Port | Description |
+|---------|------|-------------|
+| `mongo` | 27017 | MongoDB 7 replica set |
+| `mongo-init` | — | One-shot replica set initializer (exits after success) |
+| `app` | 3000 | API server |
+| `mongo-express` | 8081 | Web GUI (admin/admin) |
+
+**Standalone commands:**
+
+```bash
+docker compose up -d mongo mongo-init   # start only MongoDB + replica set init
+docker compose up -d --build app         # start/rebuild app only
+docker compose down                      # stop all services
+docker compose down -v                   # stop all + delete data volume
+```
+
 ## Scripts
 
 | Command | Description |

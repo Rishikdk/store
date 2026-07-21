@@ -21,7 +21,7 @@ services:
       mongo:
         condition: service_healthy
     environment:
-      DATABASE_URL: mongodb://mongo:27017/orderdb
+      MONGO_HOST: mongo
 
   mongo-express:
     image: mongo-express:1
