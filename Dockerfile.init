@@ -1,6 +1,4 @@
-FROM node:22-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY scripts/init-replset.js ./
-CMD ["node", "init-replset.js"]
+FROM mongo:7
+COPY scripts/init-replset.sh /init-replset.sh
+RUN chmod +x /init-replset.sh
+CMD ["/init-replset.sh"]
