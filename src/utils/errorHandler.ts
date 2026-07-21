@@ -22,6 +22,15 @@ export function errorHandler(err: Error, _req: Request, res: Response, _next: Ne
     return;
   }
 
+  const mongoError = err as any;
+  if (mongoError.errorLabels?.includes('TransientTransactionError')) {
+    res.status(409).json({
+      status: 'error',
+      message: 'Transaction conflict. Please retry.',
+    });
+    return;
+  }
+
   console.error('Unhandled error:', err);
   res.status(500).json({
     status: 'error',

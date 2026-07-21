@@ -4,7 +4,9 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import swaggerUi from 'swagger-ui-express';
 import { config } from './config/env.js';
+import { swaggerSpec } from './config/swagger.js';
 import { notFoundHandler, errorHandler } from './utils/errorHandler.js';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
@@ -23,6 +25,8 @@ export function createApp() {
   );
   app.use(express.json({ limit: '10kb' }));
   app.use(cookieParser());
+
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,

@@ -5,10 +5,10 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.src.json",
     "start": "node dist/server.js",
     "test": "jest --runInBand --forceExit",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p tsconfig.src.json",
     "studio": "docker compose -f docker-compose.studio.yml up",
     "studio:detach": "docker compose -f docker-compose.studio.yml up -d",
     "seed": "tsx src/database/seed.ts",
@@ -29,6 +29,8 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.4",
     "morgan": "^1.11.0",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
